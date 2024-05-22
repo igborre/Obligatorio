@@ -1,4 +1,5 @@
 package uy.edu.um.prog2.tad.Arboles;
+import uy.edu.um.prog2.tad.linkedlist.MyLinkedListImpl;
 import uy.edu.um.prog2.tad.linkedlist.MyList;
 
 
@@ -54,7 +55,7 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
 
     @Override
     public void insert(K key, T data, K parentKey) {
-        // Si no hay raiz y parent key, esta se vuelve la raiz
+        // Si no hay raíz y parent key, esta se vuelve la raíz
         if (root == null && parentKey == null) {
             root = new NodoArbol<K, T>(key, data);
             return;
@@ -76,25 +77,25 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
             temp.setRightChild(hijo);
             return;
         }
-        // Si los subarboles estan llenos ignora el insert
+        // Si los subárboles están llenos ignora el insert
     }
 
     @Override
-    public int size(NodoArbol<K,T> raiz) {
-        if (raiz != null) {
-            // Si es completo revisa los dos subarboles
-            if (raiz.getLeftChild() != null && raiz.getRightChild() != null) {
-                return 1 + size(raiz.getLeftChild()) + size(raiz.getRightChild());
+    public int size(NodoArbol<K,T> root) {
+        if (root != null) {
+            // Si es completo revisa los dos subárboles
+            if (root.getLeftChild() != null && root.getRightChild() != null) {
+                return 1 + size(root.getLeftChild()) + size(root.getRightChild());
             } // Si solo tiene un subárbol revisa ese
-            else if (raiz.getLeftChild() != null) {
-                return 1 + size(raiz.getLeftChild());
+            else if (root.getLeftChild() != null) {
+                return 1 + size(root.getLeftChild());
             }
-            else if (raiz.getRightChild() != null) {
-                return 1 + size(raiz.getRightChild());
+            else if (root.getRightChild() != null) {
+                return 1 + size(root.getRightChild());
             } // Si es una hoja devuelve 1
             return 1;
         }
-        // Si no hay arbol el resultado es 0
+        // Si no hay árbol el resultado es 0
         return 0;
     }
 
@@ -102,7 +103,7 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
     public int contarHojas(NodoArbol<K,T> root) {
         // Guarda los valores
         int valores = 0;
-        // Cuenta en los subárbol derechos y lo suma
+        // Cuenta en los subárboles derechos y lo suma
         if (root.getRightChild() != null){
             valores += contarHojas(root.getRightChild());
         }
@@ -136,7 +137,7 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
         return valores;
     }
 
-    //Funciones para arbol binario
+    //Funciones para árbol binario
 
     @Override
     public NodeBST<K,T> getBinaryRoot(){
@@ -148,22 +149,28 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
         this.binaryRoot = raiz;
     }
 
-    //Aca falta
     public NodeBST<K,T> binaryFind(K key, NodeBST<K, T> root){
-        NodeBST<K,T> temp = root;
-        if (key == temp.getKey()){
-            return temp;
-        } else if (key < temp.getKey() && temp.getLeftChild() != null) {
-            return binaryFind(key, temp.getLeftChild());
-        } else if (key > temp.getKey() && temp.getRightChild() != null) {
-            return binaryFind(key, temp.getRightChild());
+        int comparacion = key.compareTo(root.getKey());
+        switch (comparacion){
+            case 0: // Si es el valor lo retorna
+                return root;
+            case -1:  // Si es menor, si tiene subárbol izquierdo va por el, si no devuelve nulo (No existe)
+                if (root.getLeftChild() != null) {
+                    return binaryFind(key, root.getLeftChild());
+                }
+                return null;
+            case 1 : // Si es mayor, si tiene subárbol derecho va por el, si no devuelve nulo (No existe)
+                if (root.getRightChild() != null) {
+                    return binaryFind(key, root.getRightChild());
+                }
+                return null;
         }
         return null;
     }
 
     @Override
     public T binaryFindData(K key, NodeBST<K, T> root){
-        // Se usa la funcion binaryFind para encontrar al nodo y se devuelve su valor siempre que no sea nulo
+        // Se usa la función binaryFind para encontrar al nodo y se devuelve su valor siempre que no sea nulo
         NodeBST<K, T> temp = binaryFind(key, root);
         if (temp != null){
             return temp.getData();
@@ -174,27 +181,31 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
     //Aca falta
     @Override
     public void binaryInsert (K key, T data, NodeBST<K, T> root){
+        NodeBST<K, T> child = new NodeBST<>(key, data);
         if (root == null){
-            NodeBST<K, T> child = new NodeBST<>(key, data);
             this.setBinaryRoot(child);
-
         }
-        if (key < root.getKey()) {
-            if (root.getLeftChild() == null) {
-                NodeBST<K, T> child = new NodeBST<>(key, data);
+        int comparison = key.compareTo(root.getKey());
+        switch (comparison){
+            case 0:
+                return; // Ya esta el valor en el árbol
+        case -1:
+            if (root.getLeftChild() == null) { // Si no tiene se vuelve el hijo
                 root.setLeftChild(child);
                 return;
             }
-            binaryInsert(key, data, root.getLeftChild());
-        } else if (key > root.getKey()) {
-            if (root.getRightChild() == null) {
-                NodeBST<K, T> child = new NodeBST<>(key, data);
+            binaryInsert(key, data, root.getLeftChild()); // Si no se sigue buscando por el árbol
+            return;
+        case 1:
+            if (root.getRightChild() == null) { // Si no tiene se vuelve el hijo
                 root.setRightChild(child);
                 return;
             }
-            binaryInsert(key, data, root.getRightChild());
+            binaryInsert(key, data, root.getRightChild()); // Si no se sigue buscando por el árbol
+            return;
         }
     }
+
 
     @Override
     public void binaryDelete (K key, NodeBST<K, T> root){
@@ -287,35 +298,101 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
         }
     }
 
-    //Metodos de recorrida, se usan distintos por el tipo de nodo
-
-    @Override
-    public MyList<K> inOrder(NodoArbol<K, T> root){
-
-    }
-
-    @Override
-    public MyList<K> inOrderBinary(NodeBST<K, T> root){
-
-    }
+    //Métodos de recorrida, se usan distintos por el tipo de nodo
 
     @Override
     public MyList<K> preOrder(NodoArbol<K, T> root){
-
+        MyList<K> lista = new MyLinkedListImpl<>();
+        if (root == null){ // Si no existe el árbol
+            return null;
+        }
+        lista.add(root.getKey()); // Se añade el valor
+        if (root.getLeftChild() != null) { // Se recorre el árbol izquierdo, se van añadiendo los valores desde arriba
+            lista.listAddToEnd(preOrder(root.getLeftChild()));
+        }
+        if (root.getRightChild() != null) { // Idem con el árbol derecho
+            lista.listAddToEnd(preOrder(root.getRightChild()));
+        }
+        return lista;
     }
 
     @Override
     public MyList<K> preOrderBinary(NodeBST<K, T> root){
+        MyList<K> lista = new MyLinkedListImpl<>();
+        if (root == null){ // Si no existe el árbol
+            return null;
+        }
+        lista.add(root.getKey()); // Se añade el valor
+        if (root.getLeftChild() != null) { // Se recorre el árbol izquierdo, se van añadiendo los valores desde arriba
+            lista.listAddToEnd(preOrderBinary(root.getLeftChild()));
+        }
+        if (root.getRightChild() != null) { // Idem con el árbol derecho
+            lista.listAddToEnd(preOrderBinary(root.getRightChild()));
+        }
+        return lista;
+    }
 
+    @Override
+    public MyList<K> inOrder(NodoArbol<K, T> root){
+        MyList<K> lista = new MyLinkedListImpl<>();
+        if (root == null){ // Si no existe el árbol
+            return null;
+        }
+        if (root.getLeftChild() != null) { // Se recorre el árbol izquierdo, se van añadiendo los valores desde arriba
+            lista.listAddToEnd(inOrder(root.getLeftChild()));
+        }
+        lista.add(root.getKey()); // Se añade el valor después que el del subárbol izquierdo
+        if (root.getRightChild() != null) { // Después el del árbol derecho
+            lista.listAddToEnd(inOrder(root.getRightChild()));
+        }
+        return lista;
+    }
+
+    @Override
+    public MyList<K> inOrderBinary(NodeBST<K, T> root){
+        MyList<K> lista = new MyLinkedListImpl<>();
+        if (root == null){ // Si no existe el árbol
+            return null;
+        }
+        if (root.getLeftChild() != null) { // Se recorre el árbol izquierdo, se van añadiendo los valores desde arriba
+            lista.listAddToEnd(inOrderBinary(root.getLeftChild()));
+        }
+        lista.add(root.getKey()); // Se añade el valor después que el del subárbol izquierdo
+        if (root.getRightChild() != null) { // Después el del árbol derecho
+            lista.listAddToEnd(inOrderBinary(root.getRightChild()));
+        }
+        return lista;
     }
 
     @Override
     public MyList<K> postOrder(NodoArbol<K, T> root){
-
+        MyList<K> lista = new MyLinkedListImpl<>();
+        if (root == null){ // Si no existe el árbol
+            return null;
+        }
+        if (root.getLeftChild() != null) { // Se recorre el árbol izquierdo, se van añadiendo los valores desde arriba
+            lista.listAddToEnd(postOrder(root.getLeftChild()));
+        }
+        if (root.getRightChild() != null) { // Después el del árbol derecho
+            lista.listAddToEnd(postOrder(root.getRightChild()));
+        }
+        lista.add(root.getKey()); // Se añade el valor al final
+        return lista;
     }
 
     @Override
     public MyList<K> postOrderBinary(NodeBST<K, T> root){
-
+        MyList<K> lista = new MyLinkedListImpl<>();
+        if (root == null){ // Si no existe el árbol
+            return null;
+        }
+        if (root.getLeftChild() != null) { // Se recorre el árbol izquierdo, se van añadiendo los valores desde arriba
+            lista.listAddToEnd(postOrderBinary(root.getLeftChild()));
+        }
+        if (root.getRightChild() != null) { // Después el del árbol derecho
+            lista.listAddToEnd(postOrderBinary(root.getRightChild()));
+        }
+        lista.add(root.getKey()); // Se añade el valor al final
+        return lista;
     }
 }

@@ -14,4 +14,8 @@ public interface MyList<T> {
 
     int size();
 
+    Node<T> returnFirst();
+
+    MyList<T> listAddToEnd(MyList<T> lista2);
+
 }

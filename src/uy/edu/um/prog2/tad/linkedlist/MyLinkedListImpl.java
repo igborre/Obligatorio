@@ -129,7 +129,6 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
             }
     }
 
-
     @Override
     public int size() {
         int size = 0;
@@ -139,6 +138,24 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
             size++;
         }
         return size;
+    }
+
+    @Override
+    public Node<T> returnFirst(){
+        return this.first;
+    }
+
+    @Override
+    public MyList<T> listAddToEnd(MyList<T> lista2) {
+        Node<T> lista1 = this.first;
+        if (lista1.getNext() == null) {
+            return lista2;
+        }
+        while (lista1.getNext() != null) {
+            lista1 = lista1.getNext();
+        }
+        lista1.setNext(lista2.returnFirst());
+        return this;
     }
 
     //Funciones lista doblemente enlazada
