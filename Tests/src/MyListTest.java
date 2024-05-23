@@ -20,7 +20,8 @@ public class MyListTest {
     @Test
     public void testAddBeginning() {
         MyList<Integer> list = new MyLinkedListImpl<Integer>();
-        list.add(1);
+        list.addToTheBeginning(1);
+        Assertions.assertEquals(1, list.get(1)); // Añade al principio en vacio
         list.addToTheBeginning(2);
         Assertions.assertEquals(2, list.get(1)); // Añade al principio
     }
@@ -31,8 +32,8 @@ public class MyListTest {
         list.add(1);
         list.add(2);
         list.add(3);
-        Assertions.assertEquals(true, list.contains(1)); // Valor en la lista
-        Assertions.assertEquals(false, list.contains(4)); // Valor no existente en la misma
+        Assertions.assertTrue(list.contains(1)); // Valor en la lista
+        Assertions.assertFalse(list.contains(4)); // Valor no existente en la misma
     }
 
     @Test
@@ -40,14 +41,14 @@ public class MyListTest {
         MyList<Integer> list = new MyLinkedListImpl<Integer>();
         list.add(1);
         list.add(2);
-        Assertions.assertEquals(true, list.contains(2)); // El valor existe en la lista
+        Assertions.assertTrue(list.contains(2)); // El valor existe en la lista
         list.remove(2);
-        Assertions.assertEquals(false, list.contains(2)); // El valor fue removido
+        Assertions.assertFalse(list.contains(2)); // El valor fue removido
         list.remove(2); // Se intenta eliminar valores que no están en la lista
         list.remove(1);
         list.remove(1); // Se intenta eliminar valores a una lista sin valores
-        Assertions.assertEquals(false, list.contains(2));
-        Assertions.assertEquals(false, list.contains(1));
+        Assertions.assertFalse(list.contains(2));
+        Assertions.assertFalse(list.contains(1));
     }
 
     @Test
@@ -87,11 +88,10 @@ public class MyListTest {
     @Test
     public void testIsEmpty(){
         MyList<Integer> list = new MyLinkedListImpl<Integer>();
-        Assertions.assertEquals(true, list.isEmpty());
+        Assertions.assertTrue(list.isEmpty());
         list.add(2);
-        Assertions.assertEquals(false, list.isEmpty());
+        Assertions.assertFalse(list.isEmpty());
 
     }
-
 
 }
