@@ -76,18 +76,17 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
     }
 
     @Override
-    public T get(int position) {
+    public T get(int i){
+        if (i > this.size()){ // Se asegura que exista el valor
+            return null;
+        }
         Node<T> temp = this.first;
-        int tempPosition = 1; //Inicia en 1, el primer elemento es 1
-        //Se intenta llegar a la posición mientras exista un nodo siguiente
-        while (temp.getNext() != null && tempPosition < position) {
+        int position = 0;
+        while (position < i) { // Recorre la lista hasta llegar a el
             temp = temp.getNext();
-            tempPosition++;
+            position++;
         }
-        if (tempPosition == position) { //Si la posición es correcta devuelve el valor
-            return temp.getValue();
-        }
-        return null; //Si no existe la posición devuelve null
+        return temp.getValue();
     }
 
     @Override
@@ -156,6 +155,19 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
         }
         lista1.setNext(lista2.returnFirst());
         return this;
+    }
+
+    @Override
+    public T[] print(){
+        T[] array = (T[]) new Object[this.size()];
+        Node<T> temp = this.first;
+        int position = 0;
+        while (temp != null) {
+            array[position] = temp.getValue();
+            temp = temp.getNext();
+            position++;
+        }
+        return array;
     }
 
     //Funciones lista doblemente enlazada
@@ -390,6 +402,7 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
             throw new EmptyStackException();
         }
     }
+
     public boolean isEmpty(){
         if (lenght() > 0) {
             return Boolean.FALSE;

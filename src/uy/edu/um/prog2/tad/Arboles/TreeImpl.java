@@ -308,10 +308,10 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
         }
         lista.add(root.getKey()); // Se añade el valor
         if (root.getLeftChild() != null) { // Se recorre el árbol izquierdo, se van añadiendo los valores desde arriba
-            lista.listAddToEnd(preOrder(root.getLeftChild()));
+            lista = lista.listAddToEnd(preOrder(root.getLeftChild()));
         }
         if (root.getRightChild() != null) { // Idem con el árbol derecho
-            lista.listAddToEnd(preOrder(root.getRightChild()));
+            lista = lista.listAddToEnd(preOrder(root.getRightChild()));
         }
         return lista;
     }
@@ -324,10 +324,10 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
         }
         lista.add(root.getKey()); // Se añade el valor
         if (root.getLeftChild() != null) { // Se recorre el árbol izquierdo, se van añadiendo los valores desde arriba
-            lista.listAddToEnd(preOrderBinary(root.getLeftChild()));
+            lista = lista.listAddToEnd(preOrderBinary(root.getLeftChild()));
         }
         if (root.getRightChild() != null) { // Idem con el árbol derecho
-            lista.listAddToEnd(preOrderBinary(root.getRightChild()));
+            lista = lista.listAddToEnd(preOrderBinary(root.getRightChild()));
         }
         return lista;
     }
@@ -339,11 +339,11 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
             return null;
         }
         if (root.getLeftChild() != null) { // Se recorre el árbol izquierdo, se van añadiendo los valores desde arriba
-            lista.listAddToEnd(inOrder(root.getLeftChild()));
+            lista = lista.listAddToEnd(inOrder(root.getLeftChild()));
         }
         lista.add(root.getKey()); // Se añade el valor después que el del subárbol izquierdo
         if (root.getRightChild() != null) { // Después el del árbol derecho
-            lista.listAddToEnd(inOrder(root.getRightChild()));
+            lista = lista.listAddToEnd(inOrder(root.getRightChild()));
         }
         return lista;
     }
@@ -355,11 +355,11 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
             return null;
         }
         if (root.getLeftChild() != null) { // Se recorre el árbol izquierdo, se van añadiendo los valores desde arriba
-            lista.listAddToEnd(inOrderBinary(root.getLeftChild()));
+            lista = lista.listAddToEnd(inOrderBinary(root.getLeftChild()));
         }
         lista.add(root.getKey()); // Se añade el valor después que el del subárbol izquierdo
         if (root.getRightChild() != null) { // Después el del árbol derecho
-            lista.listAddToEnd(inOrderBinary(root.getRightChild()));
+            lista = lista.listAddToEnd(inOrderBinary(root.getRightChild()));
         }
         return lista;
     }
@@ -371,10 +371,10 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
             return null;
         }
         if (root.getLeftChild() != null) { // Se recorre el árbol izquierdo, se van añadiendo los valores desde arriba
-            lista.listAddToEnd(postOrder(root.getLeftChild()));
+            lista = lista.listAddToEnd(postOrder(root.getLeftChild()));
         }
         if (root.getRightChild() != null) { // Después el del árbol derecho
-            lista.listAddToEnd(postOrder(root.getRightChild()));
+            lista = lista.listAddToEnd(postOrder(root.getRightChild()));
         }
         lista.add(root.getKey()); // Se añade el valor al final
         return lista;
@@ -387,10 +387,10 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
             return null;
         }
         if (root.getLeftChild() != null) { // Se recorre el árbol izquierdo, se van añadiendo los valores desde arriba
-            lista.listAddToEnd(postOrderBinary(root.getLeftChild()));
+            lista = lista.listAddToEnd(postOrderBinary(root.getLeftChild()));
         }
         if (root.getRightChild() != null) { // Después el del árbol derecho
-            lista.listAddToEnd(postOrderBinary(root.getRightChild()));
+            lista = lista.listAddToEnd(postOrderBinary(root.getRightChild()));
         }
         lista.add(root.getKey()); // Se añade el valor al final
         return lista;

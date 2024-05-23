@@ -9,6 +9,9 @@ public interface MyStackL<T> {
 
     public T peek() throws EmptyStackException;
 
+    int size();
+
     boolean isEmpty();
+
     public void makeEmpty();
 }

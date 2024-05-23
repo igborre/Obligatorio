@@ -9,5 +9,9 @@ public interface MyQueue<T> {
 	boolean contains(T value);
 	
 	int size();
+
+	T get(int i);
+
+	boolean isEmpty();
 	
 }

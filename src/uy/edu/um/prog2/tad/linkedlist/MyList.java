@@ -18,4 +18,8 @@ public interface MyList<T> {
 
     MyList<T> listAddToEnd(MyList<T> lista2);
 
+    boolean isEmpty();
+
+    T[] print();
+
 }
