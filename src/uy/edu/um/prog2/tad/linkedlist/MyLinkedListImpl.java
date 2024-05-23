@@ -81,7 +81,7 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
             return null;
         }
         Node<T> temp = this.first;
-        int position = 0;
+        int position = 1;
         while (position < i) { // Recorre la lista hasta llegar a el
             temp = temp.getNext();
             position++;
@@ -91,32 +91,33 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
 
     @Override
     public void remove(T value) {
-        Node<T> temp = first;
-        Node<T> tempPosCheck = first;
-        int position = 0;
-        while (tempPosCheck.getValue() != value) {
-            if (tempPosCheck.getNext() == null) {
-            return; //Si no esta se cancela
+        if (first != null) {
+            Node<T> temp = first;
+            Node<T> tempPosCheck = first;
+            int position = 0;
+            while (tempPosCheck.getValue() != value) {
+                if (tempPosCheck.getNext() == null) {
+                    return; //Si no esta se cancela
+                }
+                tempPosCheck = tempPosCheck.getNext();
+                position++;
             }
-            tempPosCheck = tempPosCheck.getNext();
-            position++;
-        }
-        // Se revisa si se quiere editar el primero
-        if (position == 0) {
-            // Si hay siguiente lo remplaza al primero
-            if (temp.getNext() != null) {
-                first = temp.getNext();
-            } // Si no existe siguiente lo convierte en un null
-            else {
-                first = null;
-            }
-        } else {
-            // si se quiere la posicion n, se va a la n-1
-            for (int i = 1; i < position;) {
-                temp = temp.getNext();
-                i++;
-            }
-            // Revisa si existe nodo en la posicion n+1
+            // Se revisa si se quiere editar el primero
+            if (position == 0) {
+                // Si hay siguiente lo remplaza al primero
+                if (temp.getNext() != null) {
+                    first = temp.getNext();
+                } // Si no existe siguiente lo convierte en un null
+                else {
+                    first = null;
+                }
+            } else {
+                // si se quiere la posicion n, se va a la n-1
+                for (int i = 1; i < position; ) {
+                    temp = temp.getNext();
+                    i++;
+                }
+                // Revisa si existe nodo en la posicion n+1
                 if ((temp.getNext()).getNext() != null) {
                     // Si existe el de la posicion n+1 remplaza al de la n
                     temp.setNext((temp.getNext()).getNext());
@@ -126,6 +127,7 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
                 }
 
             }
+        }
     }
 
     @Override
@@ -155,19 +157,6 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
         }
         lista1.setNext(lista2.returnFirst());
         return this;
-    }
-
-    @Override
-    public T[] print(){
-        T[] array = (T[]) new Object[this.size()];
-        Node<T> temp = this.first;
-        int position = 0;
-        while (temp != null) {
-            array[position] = temp.getValue();
-            temp = temp.getNext();
-            position++;
-        }
-        return array;
     }
 
     //Funciones lista doblemente enlazada

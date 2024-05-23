@@ -20,6 +20,5 @@ public interface MyList<T> {
 
     boolean isEmpty();
 
-    T[] print();
 
 }
