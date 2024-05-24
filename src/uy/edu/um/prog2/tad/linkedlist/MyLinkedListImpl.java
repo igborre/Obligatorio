@@ -168,6 +168,7 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
         if (this.first == null) {
             this.first = newNode;
             this.last = this.first;
+            return;
         }
         Node<T> temp = first;
         while (temp.getNext() != null) {
@@ -193,16 +194,20 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
 
     @Override
     public void removeDouble(int position) {
+        if (first == null){
+            return;
+        }
         //Si es la primera posicion
         if (position == 1) {
             //Si es la unica vacia la lista
             if (this.first.getNext() == null) {
                 this.first = null;
                 this.last = null;
+                return;
             }
             //Si no la siguiente se vuelve la primera
             Node<T> temp = this.first.getNext();
-            temp.setNext(null);
+            temp.setPrevious(null);
             this.first = temp;
         }
         //Si es la ultima
