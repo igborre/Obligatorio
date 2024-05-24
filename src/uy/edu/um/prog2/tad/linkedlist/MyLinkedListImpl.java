@@ -124,6 +124,7 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
                 } else {
                     // Si no, el de la posicion n se vuelve null
                     temp.setNext(null);
+                    last = temp;
                 }
 
             }
@@ -322,15 +323,6 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
 
     // Operaciones particulares a Queue
 
-    private T removeLast() { // esta operación remueve el último elemento y retorna el elemento eliminado
-        if (this.last != null) {
-            T value = this.last.getValue();
-            remove(this.last.getValue());
-            return value;
-        }
-        return null;
-    }
-
     @Override
     public void enqueue(T value) {
         addToTheBeginning(value);
@@ -341,7 +333,9 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
         if (this.last == null) { //Si la queue esta vacia
             throw new EmptyQueueException();
         }
-        return removeLast();
+        T value = this.last.getValue();
+        this.remove(value);
+        return value;
     }
 
     // Operaciones particulares a Stack
