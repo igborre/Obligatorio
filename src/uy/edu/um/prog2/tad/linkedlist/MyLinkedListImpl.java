@@ -251,15 +251,23 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
         }
         //El ultimo se vuelve el nuevo y su siguiente el primero
         temp.setNext(newNode);
+        last = newNode;
         newNode.setNext(this.first);
     }
 
     @Override
     public T getCircularLogic(int position){
+        if (position < 1){
+            return null;
+        }
         //Si la lista no esta vacia
         if (sizeCirc() != 0) {
             //Se hace mod para no tener que recorer varias veces
             position = position % this.sizeCirc();
+            // Dado que se usa un mod y chequea que sea menor que uno, si pos == 0, significa que se quiere el ultimo valor
+            if (position == 0){
+                position = this.sizeCirc();
+            }
             Node<T> temp = this.first;
             int i = 1;
             //Se llega a la posicion
@@ -299,7 +307,20 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
         //Se va a bajar el valor de listLength hasta que se comparen todas las posiciones de lista 1 vez, para ver si el siguiente es el valor
         while (listLength > 0) {
             if (temp.getNext().getValue().equals(value)) {
-                //Si lo es, se borran las referencias a el
+                //Si lo es, se borran las referencias a el y se fija si el valor es el primero o el ultimo
+                if (first.getValue() == temp.getNext().getValue()){
+                    if (this.sizeCirc() == 1) { // Revisa si es el unico elemento
+                        this.first = null;
+                        this.last = null;
+                        return;
+                    }
+                    // Si no, el first se vuelve el segundo
+                    first = temp.getNext().getNext();
+                }
+                if (last.getValue() == temp.getNext().getValue()) {
+                    // Si se borra el ultimo, se remplaza con el que esta, no es de un solo elemento ya que en ese caso para en first
+                    last = temp;
+                }
                 temp.setNext(temp.getNext().getNext());
                 return;
                 //Si se encuentra se termina
