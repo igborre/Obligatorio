@@ -77,7 +77,7 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
 
     @Override
     public T get(int i){
-        if (i > this.size()){ // Se asegura que exista el valor
+        if (i > this.size() || i == 0){ // Se asegura que exista el valor
             return null;
         }
         Node<T> temp = this.first;
