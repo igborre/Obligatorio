@@ -4,6 +4,16 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
     public int size;
     public HashNode[] table;
 
+    @Override
+    public HashNode[] getTable(){
+        return table;
+    }
+
+    @Override
+    public int getSize(){
+        return size;
+    }
+
     public HashTableImpl(int size){
         this.size = size;
         this.table = new HashNode[size];
@@ -32,6 +42,11 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
         // Si el espacio esta vacio, se almacena, si no significa que la tabla esta llena, hay que usar el algoritmo de agrandado.
         if(table[clave] == null){
             table[clave] = node;
+            return;
+        }
+        if (tries == size) {
+            this.table = this.Expand().getTable();
+            this.size = this.Expand().getSize();
         }
     }
 
@@ -81,5 +96,14 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
     public int squareCollidesWith(K key, int tries){
         int clave = hash(key);
         return (clave + tries^2);
+    }
+
+    public HashTable<K,V> Expand(){
+        HashTable<K, V> newTable = new HashTableImpl<>(2*this.size);
+        for(int i = 0; i < size; i++){
+            HashNode<K, V> newNode = this.table[i];
+            newTable.put(newNode.getKey(), newNode.getValue());
+        }
+        return newTable;
     }
 }

@@ -197,6 +197,7 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
         NodeBST<K, T> child = new NodeBST<>(key, data);
         if (root == null){
             this.setBinaryRoot(child);
+            return;
         }
         int comparison = key.compareTo(root.getKey());
         switch (comparison){
@@ -240,10 +241,12 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
                         // Si no tiene reviza el izquierdo
                         if (root.getLeftChild().getLeftChild() != null) {
                             root.setLeftChild(root.getLeftChild().getLeftChild());
+                            return;
                             // Si tiene lo sustituye
                         }
                         // Si no tiene ninguno lo borra de una
                         root.setLeftChild(null);
+                        return;
                     }
                     // Si lo tiene se vuelve el nuevo hijo, cuidando de no borrar al hijo izquierdo
                     // Se guarda el hijo izquierdo del que se va a borrar
@@ -258,6 +261,7 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
                     }
                     // Cuando sea nulo guarda el subárbol izquierdo (ya que es menor a cualquier valor en el subárbol derecho)
                     rightTree.setLeftChild(leftTree);
+                    return;
                 }
                 // Si no es igual, al ser menor revisa dentro el subárbol izquierdo
                 binaryDelete(key, root.getLeftChild());
@@ -275,10 +279,12 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
                         // Si no tiene reviza el derecho
                         if (root.getRightChild().getRightChild() != null) {
                             root.setRightChild(root.getRightChild().getRightChild());
+                            return;
                             // Si tiene lo sustituye
                         }
                         // Si no tiene ninguno lo borra de una
                         root.setRightChild(null);
+                        return;
                     }
                     // Si lo tiene se vuelve el nuevo hijo, cuidando de no borrar al hijo derecho
                     // Se guarda el hijo derecho del que se va a borrar
@@ -293,21 +299,39 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
                     }
                     //C uando sea nulo guarda el subárbol derecho (ya que es mayor a cualquier valor en el subárbol izquierdo)
                     rightTree.setRightChild(rightTree);
+                    return;
                 }
                 // Si no es igual, al ser menor revisa dentro el subárbol izquierdo
                 binaryDelete(key, root.getRightChild());
                 break;
             default:
                 // El unico caso que lo hace, es si se borra la raiz, ya que si es parte del arbor lo hace en los "case" 1/-1
-                // Se guarda el subárbol izquierdo
-                NodeBST<K, T> leftTree = root.getLeftChild();
-                root = root.getRightChild();
-                // Se remplaza con el hijo derecho y el hijo derecho se va al subárbol mas a la izquierda, ya que es menor a todos
-                while (root.getLeftChild() != null){
-                    root = root.getLeftChild();
+                // Se guarda el subárbol izquierdo si no es nulo
+                if (root.getLeftChild() != null) {NodeBST<K, T> leftTree = root.getLeftChild();
+                    // Ve si existe subarbol derecho
+                    if (root.getRightChild() != null) {
+                        root = root.getRightChild();
+                        setBinaryRoot(root);
+                        // Se remplaza con el hijo derecho y el hijo derecho se va al subárbol mas a la izquierda, ya que es menor a todos
+                        while (root.getLeftChild() != null){
+                            root = root.getLeftChild();
+                        }
+                        // Despises lo guarda
+                        root.setLeftChild(leftTree);
+                        return;
+                    }
+                    // Si no el subarbol derecho se vuelve raiz
+                    setBinaryRoot(root.getLeftChild());
+                    return;
                 }
-                // Despises lo guarda
-                root.setLeftChild(leftTree);
+                // Si lo es, se ve si el subarbol derecho tambien lo es
+                if (root.getRightChild() != null) {
+                    // Si existe se vuelve la raiz
+                    setBinaryRoot(root.getRightChild());
+                    return;
+                }
+                // Si no existe no hay arbol
+                setBinaryRoot(null);
         }
     }
 
