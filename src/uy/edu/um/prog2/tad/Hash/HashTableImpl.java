@@ -28,6 +28,7 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
     public void put(K key, V value) {
         HashNode<K,V> node = new HashNode(key, value);
         int clave = hash(key);
+        clave = clave % size;
         int tries = 0;
         while(table[clave] != null && tries < size){
             if (table[clave].getKey().equals(key)){
@@ -46,13 +47,15 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
         }
         if (tries == size) {
             this.table = this.Expand().getTable();
-            this.size = this.Expand().getSize();
+            this.size = this.size*2;
+            this.put(key, value);
         }
     }
 
     @Override
     public boolean contains(K key) {
         int clave = hash(key);
+        clave = clave % size;
         // Va a la posicion del hash
         int tries = 0;
         // En caso de que no sea la key correcta, por colicion se intenta recorrer
@@ -74,6 +77,7 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
     @Override
     public void remove(K key) {
         int clave = hash(key);
+        clave = clave % size;
         //Misma implementacion que la funcion contains
         int tries = 0;
         while (table[clave] != null && tries < size){
