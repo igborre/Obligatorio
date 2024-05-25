@@ -150,13 +150,18 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
     @Override
     public MyList<T> listAddToEnd(MyList<T> lista2) {
         Node<T> lista1 = this.first;
-        if (lista1.getNext() == null) {
+        if (lista1 == null) {
             return lista2;
         }
         while (lista1.getNext() != null) {
             lista1 = lista1.getNext();
         }
         lista1.setNext(lista2.returnFirst());
+        Node<T> last = lista1.getNext();
+        while (last.getNext() != null) {
+            last = last.getNext();
+        }
+        this.last = last;
         return this;
     }
 
