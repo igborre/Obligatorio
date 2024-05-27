@@ -191,7 +191,6 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
         return null;
     }
 
-    //Aca falta
     @Override
     public void binaryInsert (K key, T data, NodeBST<K, T> root){
         NodeBST<K, T> child = new NodeBST<>(key, data);
