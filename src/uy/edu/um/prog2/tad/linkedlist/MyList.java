@@ -8,6 +8,8 @@ public interface MyList<T> {
 
     T get(int position);
 
+    Node<T> getValue(T value);
+
     boolean contains(T value);
 
     void remove(T value);

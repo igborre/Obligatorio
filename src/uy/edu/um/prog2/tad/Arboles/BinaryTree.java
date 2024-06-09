@@ -14,6 +14,8 @@ public interface BinaryTree<K extends Comparable<K>, T> {
 
     void binaryDelete (K key, NodeBST<K, T> root);
 
+    boolean contains(K key, NodeBST<K, T> binaryRoot);
+
     MyList<K> inOrderBinary(NodeBST<K, T> root);
 
     MyList<K> preOrderBinary(NodeBST<K, T> root);

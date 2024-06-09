@@ -14,6 +14,17 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
         return size;
     }
 
+    @Override
+    public int filledPlaces(){
+        int size = 0;
+        for (int i = 0; i < getSize(); i++){
+            if (table[i] != null){
+                size++;
+            }
+        }
+        return size;
+    }
+
     public HashTableImpl(int size){
         this.size = size;
         this.table = new HashNode[size];
@@ -50,6 +61,24 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
             this.size = this.size*2;
             this.put(key, value);
         }
+    }
+
+    @Override
+    public HashNode<K, V> get(K key) {
+        // Misma implementacion que contains
+        int clave = hash(key);
+        clave = clave % size;
+        int tries = 0;
+        while (table[clave] != null && tries < size){
+            if (table[clave].getKey().equals(key)) {
+                // Si sus keys son iguales, devuelve true
+                return table[clave];
+            }
+            clave = linealCollidesWith(key, tries);
+            tries++;
+            clave = clave % size;
+        }
+        return null;
     }
 
     @Override

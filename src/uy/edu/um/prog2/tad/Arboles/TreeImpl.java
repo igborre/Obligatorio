@@ -191,6 +191,7 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
         return null;
     }
 
+    //Aca falta
     @Override
     public void binaryInsert (K key, T data, NodeBST<K, T> root){
         NodeBST<K, T> child = new NodeBST<>(key, data);
@@ -332,6 +333,17 @@ public class TreeImpl<K extends Comparable<K>,T> implements Tree<K,T>, BinaryTre
                 // Si no existe no hay arbol
                 setBinaryRoot(null);
         }
+    }
+
+    @Override
+    public boolean contains(K key, NodeBST<K, T> binaryRoot) {
+        if (binaryRoot == null){
+            return false;
+        }
+        if (binaryFind(key, binaryRoot) != null){
+            return true;
+        }
+        return false;
     }
 
     //Métodos de recorrida, se usan distintos por el tipo de nodo

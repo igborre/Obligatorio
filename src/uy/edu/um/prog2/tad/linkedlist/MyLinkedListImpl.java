@@ -90,6 +90,21 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStackL<T>, 
     }
 
     @Override
+    public Node<T> getValue(T value){
+        Node<T> temp = this.first;
+        //Recorre la lista y se fija por el valor
+        while (temp != null) {
+            if (temp.getValue().equals(value)) {
+                return temp;
+            }
+            temp = temp.getNext();
+        }
+        //Si llego al final de la lista y no esta, devuelve null
+        return null;
+    }
+
+
+    @Override
     public void remove(T value) {
         if (first != null) {
             Node<T> temp = first;
